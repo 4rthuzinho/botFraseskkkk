@@ -1,9 +1,9 @@
-const { default: makeWASocket, useSingleFileLegacyAuthState } = require('@whiskeysockets/baileys');
+const { default: makeWASocket, useSingleFileAuthState } = require('@whiskeysockets/baileys');
 const { default: axios } = require('axios');
 const fs = require('fs');
 
 // Autenticação (vai gerar e salvar session.json)
-const { state, saveState } = useSingleFileLegacyAuthState('./session.json');
+const { state, saveState } = useSingleFileAuthState('./session.json');
 
 // Inicia conexão com WhatsApp
 async function startBot() {
