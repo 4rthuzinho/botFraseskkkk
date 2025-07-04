@@ -1,16 +1,13 @@
 {
-  "name": "botfrase",
+  "name": "bot-frases",
   "version": "1.0.0",
+  "description": "Bot de frases motivacionais com WhatsApp Web.js",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bot.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.18",
-    "axios": "^1.10.0"
+    "axios": "^1.6.0",
+    "whatsapp-web.js": "^1.23.0"
   }
 }

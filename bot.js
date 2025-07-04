@@ -1,39 +1,39 @@
-const { default: makeWASocket, useMultiFileAuthState } = require('@adiwajshing/baileys');
-const { default: axios } = require('axios');
-const fs = require('fs');
+const { Client, LocalAuth } = require('whatsapp-web.js');
+const axios = require('axios');
 
-// Autenticação (vai gerar pasta ./auth com arquivos internos)
-async function startBot() {
-  const { state, saveCreds } = await useMultiFileAuthState('./auth');
-
-  const sock = makeWASocket({
-    auth: state,
-    printQRInTerminal: true,
-  });
-
-  sock.ev.on('creds.update', saveCreds);
-
-  sock.ev.on('connection.update', (update) => {
-    if (update.connection === 'open') {
-      console.log('✅ Bot conectado ao WhatsApp!');
+// Inicializa cliente com autenticação persistente (salva em .wwebjs_auth/)
+const client = new Client({
+    authStrategy: new LocalAuth(),
+    puppeteer: {
+        headless: true, // roda em modo servidor
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
     }
-  });
+});
 
-  // Envia frase motivacional a cada 1h
-  setInterval(async () => {
+client.on('qr', (qr) => {
+    console.log('\n📱 ESCANEIE O QR ABAIXO COM O CELULAR:\n');
+    const qrcode = require('qrcode-terminal');
+    qrcode.generate(qr, { small: true });
+});
+
+client.on('ready', () => {
+    console.log('✅ Bot conectado ao WhatsApp!');
+    enviarFrase(); // primeira mensagem
+    setInterval(enviarFrase, 3600000); // depois, a cada 1h
+});
+
+async function enviarFrase() {
     try {
-      const { data } = await axios.get('https://zenquotes.io/api/today');
-      const quote = data[0].q;
-      const author = data[0].a;
+        const { data } = await axios.get('https://zenquotes.io/api/today');
+        const quote = data[0].q;
+        const author = data[0].a;
+        const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quote}"_`;
 
-      const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quote}"_`;
-
-      await sock.sendMessage('5511999999999@s.whatsapp.net', { text: msg });
-      console.log('✅ Mensagem enviada:', msg);
+        await client.sendMessage('5511999999999@c.us', msg);
+        console.log('✅ Mensagem enviada:', msg);
     } catch (err) {
-      console.error('Erro ao enviar mensagem:', err.message);
+        console.error('Erro ao buscar ou enviar frase:', err.message);
     }
-  }, 3600000);
 }
 
-startBot();
+client.initialize();
