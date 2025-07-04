@@ -29,7 +29,7 @@ async function enviarFrase() {
         const author = data[0].a;
         const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quote}"_`;
 
-        await client.sendMessage('5511999999999@c.us', msg);
+        await client.sendMessage('5531971829516@c.us', msg);
         console.log('✅ Mensagem enviada:', msg);
     } catch (err) {
         console.error('Erro ao buscar ou enviar frase:', err.message);
