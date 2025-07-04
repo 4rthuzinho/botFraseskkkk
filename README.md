@@ -19,7 +19,7 @@ Bot que envia frases motivacionais automáticas para o WhatsApp usando a bibliot
 - [x] Reconexão automática
 - [x] Envio para o tel da tereza
 - [x] TUDO FUNCIONANDO
-- [ ] Tradução dinâmica
+- [x] Tradução dinâmica
 - [ ] Suporte a versículos bíblicos (Bible API)
 - [ ] Envio automático para grupos
 - [ ] Integração com Discord
