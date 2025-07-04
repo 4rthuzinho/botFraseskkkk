@@ -29,7 +29,10 @@ async function enviarFrase() {
         const { data } = await axios.get('https://zenquotes.io/api/today');
         const quote = data[0].q;
         const author = data[0].a;
-        const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quote}"_`;
+        const {data: translate} = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=${encodeURIComponent(quote)}`);
+        const quoteTranslate = translate[0][0][0];
+
+        const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quoteTranslate}"_`;
 
         const numeroDestino = '553185294769@c.us';
         await client.sendMessage(numeroDestino, msg);
