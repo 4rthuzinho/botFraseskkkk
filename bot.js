@@ -28,7 +28,7 @@ async function enviarFrase() {
     try {
         const { data } = await axios.get('https://zenquotes.io/api/today');
         const quote = data[0].q;
-        console.log('mensagem:', quote)
+        console.log('Mensagem:', quote)
         const author = data[0].a;
         const {data: translate} = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=${encodeURIComponent(quote)}`);
         const quoteTranslate = translate[0][0][0];

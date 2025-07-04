@@ -7,7 +7,7 @@ Bot que envia frases motivacionais automáticas para o WhatsApp usando a bibliot
 ## 🔌 Tecnologias utilizadas
 
 - [Node.js]
-- [Baileys]
+- [whatsapp-web.js]
 - [ZenQuotesAPI]
 - [Google_TranslateAPI(não_oficial)]
 
