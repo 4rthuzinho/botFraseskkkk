@@ -1,11 +1,14 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const axios = require('axios');
 
-// Inicializa cliente com autenticação persistente (salva em .wwebjs_auth/)
+// 🟡 Log de início do script
+console.log('🟡 Iniciando bot... Aguardando conexão com o WhatsApp...');
+
+// Inicializa cliente com autenticação persistente
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        headless: true, // roda em modo servidor
+        headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
     }
 });
@@ -18,7 +21,7 @@ client.on('qr', (qr) => {
 
 client.on('ready', () => {
     console.log('✅ Bot conectado ao WhatsApp!');
-    enviarFrase(); // primeira mensagem
+    enviarFrase(); // envia após conexão
 });
 
 async function enviarFrase() {
@@ -28,10 +31,13 @@ async function enviarFrase() {
         const author = data[0].a;
         const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quote}"_`;
 
-        await client.sendMessage('553171829516@c.us', msg);
-        console.log('✅ Mensagem enviada:', msg);
+        const numeroDestino = '553171829516@c.us';
+        await client.sendMessage(numeroDestino, msg);
+
+        const agora = new Date().toLocaleString('pt-BR');
+        console.log(`📤 ${agora} | Mensagem enviada para ${numeroDestino}`);
     } catch (err) {
-        console.error('Erro ao buscar ou enviar frase:', err.message);
+        console.error('❌ Erro ao buscar ou enviar frase:', err.message);
     }
 }
 
