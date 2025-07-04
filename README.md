@@ -1,6 +1,6 @@
 # 🤖 botFrases - WhatsApp Motivacional
 
-Bot que envia frases motivacionais automáticas para o WhatsApp usando a biblioteca Baileys e a API ZenQuotes.
+Bot que envia frases motivacionais automáticas para o WhatsApp usando a biblioteca WWBJS e a API ZenQuotes.
 
 ---
 
@@ -16,7 +16,9 @@ Bot que envia frases motivacionais automáticas para o WhatsApp usando a bibliot
 ## 📍 Roadmap (futuro)
 
 - [x] Envio de frase motivacional via WhatsApp
-- [ ] Tradução dinâmica com feedback de usuário
+- [x] Reconexão automática
+- [x] Envio para o tel da tereza
+- [ ] Tradução dinâmica
 - [ ] Suporte a versículos bíblicos (Bible API)
 - [ ] Envio automático para grupos
 - [ ] Integração com Discord
