@@ -19,7 +19,6 @@ client.on('qr', (qr) => {
 client.on('ready', () => {
     console.log('✅ Bot conectado ao WhatsApp!');
     enviarFrase(); // primeira mensagem
-    setInterval(enviarFrase, 3600000); // depois, a cada 1h
 });
 
 async function enviarFrase() {
@@ -29,7 +28,7 @@ async function enviarFrase() {
         const author = data[0].a;
         const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quote}"_`;
 
-        await client.sendMessage('5531971829516@c.us', msg);
+        await client.sendMessage('553171829516@c.us', msg);
         console.log('✅ Mensagem enviada:', msg);
     } catch (err) {
         console.error('Erro ao buscar ou enviar frase:', err.message);
