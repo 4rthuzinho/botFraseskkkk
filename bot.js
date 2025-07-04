@@ -31,7 +31,7 @@ async function enviarFrase() {
         const author = data[0].a;
         const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quote}"_`;
 
-        const numeroDestino = '553171829516@c.us';
+        const numeroDestino = '553185294769@c.us';
         await client.sendMessage(numeroDestino, msg);
 
         const agora = new Date().toLocaleString('pt-BR');
