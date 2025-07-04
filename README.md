@@ -18,6 +18,7 @@ Bot que envia frases motivacionais automáticas para o WhatsApp usando a bibliot
 - [x] Envio de frase motivacional via WhatsApp
 - [x] Reconexão automática
 - [x] Envio para o tel da tereza
+- [x] TUDO FUNCIONANDO
 - [ ] Tradução dinâmica
 - [ ] Suporte a versículos bíblicos (Bible API)
 - [ ] Envio automático para grupos
@@ -31,3 +32,8 @@ Bot que envia frases motivacionais automáticas para o WhatsApp usando a bibliot
 ## 👤 Autor
 
 Feito com ☕ por Arthur Diogo >> [https://github.com/4rthuzinho]
+
+
+## ⚙️ Como Rodar
+
+pm2 restart bot-frases
