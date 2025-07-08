@@ -1,10 +1,10 @@
+const express = require('express');
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const axios = require('axios');
+const qrcode = require('qrcode-terminal');
 
-// 🟡 Log de início do script
-console.log('🟡 Iniciando bot... Aguardando conexão com o WhatsApp...');
+const app = express();
+app.use(express.json());
 
-// Inicializa cliente com autenticação persistente
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
@@ -14,36 +14,41 @@ const client = new Client({
 });
 
 client.on('qr', (qr) => {
-    console.log('\n📱 ESCANEIE O QR ABAIXO COM O CELULAR:\n');
-    const qrcode = require('qrcode-terminal');
+    console.log('\n📱 ESCANEIE O QR ABAIXO:\n');
     qrcode.generate(qr, { small: true });
 });
 
 client.on('ready', () => {
     console.log('✅ Bot conectado ao WhatsApp!');
-    enviarFrase(); // envia após conexão
 });
 
-async function enviarFrase() {
-    try {
-        const { data } = await axios.get('https://zenquotes.io/api/today');
-        const quote = data[0].q;
-        console.log('Mensagem:', quote)
-        const author = data[0].a;
-        const {data: translate} = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=${encodeURIComponent(quote)}`);
-        const quoteTranslate = translate[0][0][0];
-        console.log('Tradução:', quoteTranslate)
+// Endpoint para envio em massa
+app.post('/enviar', async (req, res) => {
+    const { numeros, mensagem } = req.body;
 
-        const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quoteTranslate}"_`;
-
-        const numeroDestino = '553185294769@c.us';
-        await client.sendMessage(numeroDestino, msg);
-
-        const agora = new Date().toLocaleString('pt-BR');
-        console.log(`📤 ${agora} | Mensagem enviada para ${numeroDestino}`);
-    } catch (err) {
-        console.error('❌ Erro ao buscar ou enviar frase:', err.message);
+    if (!numeros || !mensagem) {
+        return res.status(400).json({ erro: 'Informe "numeros" e "mensagem" no body.' });
     }
-}
+
+    const enviados = [];
+
+    for (const numero of numeros) {
+        const whatsappId = numero.replace(/\D/g, '') + '@c.us'; // remove qualquer símbolo e monta id
+        try {
+            await client.sendMessage(whatsappId, mensagem);
+            enviados.push(numero);
+            console.log(`📤 Mensagem enviada para ${numero}`);
+        } catch (err) {
+            console.error(`❌ Erro ao enviar para ${numero}: ${err.message}`);
+        }
+    }
+
+    res.json({ status: 'ok', enviados });
+});
+
+// Inicia o servidor
+app.listen(3000, () => {
+    console.log('🚀 API rodando em http://localhost:3000');
+});
 
 client.initialize();
