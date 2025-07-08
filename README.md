@@ -37,3 +37,4 @@ Feito com ☕ por Arthur Diogo >> [https://github.com/4rthuzinho]
 ## ⚙️ Como Rodar
 
 pm2 restart bot-frases
+...
