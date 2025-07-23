@@ -1,10 +1,9 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const axios = require('axios');
+const { getFraseZenQuotes } = require('./providers/zenquotes');
+const qrcode = require('qrcode-terminal');
 
-// 🟡 Log de início do script
 console.log('🟡 Iniciando bot... Aguardando conexão com o WhatsApp...');
 
-// Inicializa cliente com autenticação persistente
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
@@ -15,7 +14,6 @@ const client = new Client({
 
 client.on('qr', (qr) => {
     console.log('\n📱 ESCANEIE O QR ABAIXO COM O CELULAR:\n');
-    const qrcode = require('qrcode-terminal');
     qrcode.generate(qr, { small: true });
 });
 
@@ -26,16 +24,10 @@ client.on('ready', () => {
 
 async function enviarFrase() {
     try {
-        const { data } = await axios.get('https://zenquotes.io/api/today');
-        const quote = data[0].q;
-        console.log('Mensagem:', quote)
-        const author = data[0].a;
-        const {data: translate} = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=${encodeURIComponent(quote)}`);
-        const quoteTranslate = translate[0][0][0];
-        console.log('Tradução:', quoteTranslate)
+        const frase = await getFraseZenQuotes();
+        if (!frase) throw new Error('Frase não encontrada');
 
-        const msg = `🧠 Já dizia o mestre *${author}*:\n_"${quoteTranslate}"_`;
-
+        const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
         const numeroDestino = '553185294769@c.us';
         await client.sendMessage(numeroDestino, msg);
 
