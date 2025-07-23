@@ -3,7 +3,7 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
 const { sendWhatsAppMessage } = require('./channel/whatsapp');
-const { sendDiscordMessage } = require('./providers/discord');
+const { sendDiscordMessage } = require('./channel/discord');
 
 const { getFraseZenQuotes } = require('./providers/zenquotes');
 const { getFraseGPT } = require('./providers/gpt');
