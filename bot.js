@@ -1,9 +1,10 @@
 require('dotenv').config();
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const { sendWhatsAppMessage } = require('./channel/whatsapp');
 const qrcode = require('qrcode-terminal');
 
-// Importa os providers
+const { sendWhatsAppMessage } = require('./channel/whatsapp');
+const { sendDiscordMessage } = require('./providers/discord');
+
 const { getFraseZenQuotes } = require('./providers/zenquotes');
 const { getFraseGPT } = require('./providers/gpt');
 
@@ -29,11 +30,13 @@ client.on('ready', async () => {
 
 async function enviarFrase() {
   try {
-    // Escolhe provider via .env
     const provider = process.env.QUOTE_PROVIDER || 'zenquotes';
-    let frase;
-    console.log(`📡 Provider selecionado: ${provider}`);
+    const canais = process.env.CHANNEL?.split(',').map(c => c.trim()) || ['whatsapp'];
 
+    console.log(`📡 Provider selecionado: ${provider}`);
+    console.log(`📨 Enviando via canais: ${canais.join(', ')}`);
+
+    let frase;
     if (provider === 'gpt') {
       frase = await getFraseGPT();
     } else {
@@ -43,9 +46,16 @@ async function enviarFrase() {
     if (!frase) throw new Error('Frase não encontrada');
 
     const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
-    const numeroDestino = '553185294769@c.us';
 
-    await sendWhatsAppMessage(client, numeroDestino, msg);
+    if (canais.includes('whatsapp')) {
+      const numeroDestino = '553185294769@c.us';
+      await sendWhatsAppMessage(client, numeroDestino, msg);
+    }
+
+    if (canais.includes('discord')) {
+      await sendDiscordMessage(msg);
+    }
+
   } catch (err) {
     console.error('❌ Erro ao buscar ou enviar frase:', err.message);
   }
