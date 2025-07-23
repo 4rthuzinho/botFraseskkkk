@@ -21,7 +21,7 @@ Bot que envia frases motivacionais automáticas para o WhatsApp usando a bibliot
 - [x] TUDO FUNCIONANDO
 - [x] Tradução dinâmica
 - [x] Separação de providers (gerador de frase)
-- [ ] Separação de providers (api de whatsapp)
+- [x] Separação de providers (api de whatsapp)
 - [ ] Criação de provider gerador de frase > GPT
 - [ ] Integração com Discord
 - [ ] Suporte a versículos bíblicos (Bible API)
