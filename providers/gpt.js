@@ -1,8 +1,12 @@
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
 const { OpenAI } = require('openai');
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  fetch, // 👈 injeta o fetch manualmente
+});
 
 const frasesUsadasPath = path.join(__dirname, '../frases_usadas.json');
 
