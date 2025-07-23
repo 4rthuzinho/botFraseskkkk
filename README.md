@@ -4,12 +4,25 @@ Bot que envia frases motivacionais automáticas para o WhatsApp usando a bibliot
 
 ---
 
+# 📝 Resumo do que tá em produção agora:
+
+PROVIDER=gpt|zenquotes
+
+CHANNEL=whatsapp|discord
+
+.env configura tudo
+
+Código único e modular
+
+Envio automático e seguro, com pm2 limpo
+
 ## 🔌 Tecnologias utilizadas
 
 - [Node.js]
 - [whatsapp-web.js]
 - [ZenQuotesAPI]
 - [Google_TranslateAPI(não_oficial)]
+- [API_Open_AI]
 
 ---
 
@@ -23,7 +36,7 @@ Bot que envia frases motivacionais automáticas para o WhatsApp usando a bibliot
 - [x] Separação de providers (gerador de frase)
 - [x] Separação de providers (api de whatsapp)
 - [x] Criação de provider gerador de frase > GPT
-- [ ] Integração com Discord
+- [x] Integração com Discord
 - [ ] Envio simultaneo em 2 canais > Discord e Zap
 - [ ] Suporte a versículos bíblicos (Bible API)
 - [ ] Envio automático para grupos
