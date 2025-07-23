@@ -52,7 +52,7 @@ console.log('Prompt enviado ao GPT:', prompt)
 
     return {
       original: frase,
-      author: 'ChatGPT',
+      author: 'Eu mesmo',
       translated: frase // já vem em PT-BR
     };
   } catch (err) {
