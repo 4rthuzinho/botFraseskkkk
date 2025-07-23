@@ -47,6 +47,7 @@ Retorne apenas a frase, sem aspas, sem autor.
 
     const frase = completion.data.choices[0].message.content.trim();
     salvarFraseUsada(frase);
+    console.log('Frase gerada:', frase)
 
     return {
       original: frase,
