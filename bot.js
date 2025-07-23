@@ -1,7 +1,11 @@
+require('dotenv').config();
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const { getFraseZenQuotes } = require('./providers/zenquotes');
 const { sendWhatsAppMessage } = require('./channel/whatsapp');
 const qrcode = require('qrcode-terminal');
+
+// Importa os providers
+const { getFraseZenQuotes } = require('./providers/zenquotes');
+const { getFraseGPT } = require('./providers/gpt');
 
 console.log('🟡 Iniciando bot... Aguardando conexão com o WhatsApp...');
 
@@ -25,7 +29,17 @@ client.on('ready', async () => {
 
 async function enviarFrase() {
   try {
-    const frase = await getFraseZenQuotes();
+    // Escolhe provider via .env
+    const provider = process.env.QUOTE_PROVIDER || 'zenquotes';
+    let frase;
+
+    if (provider === 'gpt') {
+      frase = await getFraseGPT();
+    } else {
+      frase = await getFraseZenQuotes();
+    }
+    console.log(`📡 Provider selecionado: ${provider}`);
+
     if (!frase) throw new Error('Frase não encontrada');
 
     const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
