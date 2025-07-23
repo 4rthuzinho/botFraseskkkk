@@ -1,7 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
+const { Headers, Request, Response } = fetch;
 const { OpenAI } = require('openai');
+
+globalThis.fetch = fetch;
+globalThis.Headers = Headers;
+globalThis.Request = Request;
+globalThis.Response = Response;
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
