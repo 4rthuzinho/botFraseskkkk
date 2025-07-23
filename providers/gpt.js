@@ -1,18 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch');
-const { Headers, Request, Response } = fetch;
-const { OpenAI } = require('openai');
+const { Configuration, OpenAIApi } = require('openai');
 
-globalThis.fetch = fetch;
-globalThis.Headers = Headers;
-globalThis.Request = Request;
-globalThis.Response = Response;
-
-const openai = new OpenAI({
+const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
-  fetch, // 👈 injeta o fetch manualmente
 });
+const openai = new OpenAIApi(configuration);
 
 const frasesUsadasPath = path.join(__dirname, '../frases_usadas.json');
 
@@ -41,8 +34,8 @@ Retorne apenas a frase, sem aspas, sem autor.
 `;
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-4',
       messages: [
         {
           role: 'user',
@@ -52,7 +45,7 @@ Retorne apenas a frase, sem aspas, sem autor.
       temperature: 0.8,
     });
 
-    const frase = completion.choices[0].message.content.trim();
+    const frase = completion.data.choices[0].message.content.trim();
     salvarFraseUsada(frase);
 
     return {
