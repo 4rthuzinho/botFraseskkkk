@@ -24,16 +24,14 @@ async function enviarFrase(frase) {
   }
 }
 
-// Escolhe provider de frase
 async function obterFrase() {
   return provider === 'gpt' ? await getFraseGPT() : await getFraseZenQuotes();
 }
 
-// Se canal for WhatsApp, inicializa o client:
 if (canal === 'whatsapp') {
   const { Client, LocalAuth } = require('whatsapp-web.js');
 
-  const client = new Client({
+  global.client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
       headless: true,
@@ -56,18 +54,20 @@ if (canal === 'whatsapp') {
 
   client.initialize();
 } else if (require.main === module) {
-  // Garante execução única se estiver rodando diretamente
   obterFrase()
     .then(frase => {
-      if (!frase) return console.error('❌ Frase não encontrada');
+      if (!frase) {
+        console.error('❌ Frase não encontrada');
+        process.exit(1);
+      }
       const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
       return enviarFrase(msg);
     })
     .then(() => {
-      process.exit(0); // 🧨 encerra após sucesso
+      process.exit(0); // Finaliza com sucesso
     })
     .catch(err => {
       console.error('❌ Erro ao buscar ou enviar frase:', err.message);
-      process.exit(1); // 🔴 encerra com erro
+      process.exit(1); // Finaliza com erro
     });
 }
