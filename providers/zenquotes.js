@@ -7,8 +7,6 @@ async function getFraseZenQuotes() {
     const quote = data[0].q;
     const author = data[0].a;
 
-    // 🪵 Log da resposta original
-    console.log('📥 Resposta ZenQuotes:', JSON.stringify(data, null, 2));
     console.log(`🧠 Frase original: "${quote}" — ${author}`);
 
     // 🔹 Traduz a frase
