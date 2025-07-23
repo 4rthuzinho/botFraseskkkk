@@ -28,7 +28,7 @@ async function enviarFrase() {
         if (!frase) throw new Error('Frase não encontrada');
 
         const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
-        const numeroDestino = '553185294769@c.us';
+        const numeroDestino = '553171829516@c.us';
         await client.sendMessage(numeroDestino, msg);
 
         const agora = new Date().toLocaleString('pt-BR');
