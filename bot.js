@@ -55,12 +55,16 @@ if (canal === 'whatsapp') {
   });
 
   client.initialize();
-} else {
-  // Executa diretamente se for outro canal (ex: Discord)
-  (async () => {
-    const frase = await obterFrase();
-    if (!frase) return console.error('❌ Frase não encontrada');
-    const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
-    await enviarFrase(msg);
-  })();
+} else if (require.main === module) {
+  // Garante execução única se estiver rodando diretamente
+  obterFrase()
+    .then(frase => {
+      if (!frase) return console.error('❌ Frase não encontrada');
+      const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
+      return enviarFrase(msg);
+    })
+    .catch(err => {
+      console.error('❌ Erro ao buscar ou enviar frase:', err.message);
+    });
 }
+
