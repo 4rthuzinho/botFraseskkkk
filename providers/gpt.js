@@ -32,6 +32,7 @@ ${frasesUsadas.map(f => `- ${f}`).join('\n')}
 A frase deve ser positiva, inspiradora e parecer natural.
 Retorne apenas a frase, sem aspas, sem autor.
 `;
+console.log('Prompt enviado ao GPT:', prompt)
 
   try {
     const completion = await openai.createChatCompletion({

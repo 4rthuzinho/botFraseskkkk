@@ -32,13 +32,13 @@ async function enviarFrase() {
     // Escolhe provider via .env
     const provider = process.env.QUOTE_PROVIDER || 'zenquotes';
     let frase;
+    console.log(`📡 Provider selecionado: ${provider}`);
 
     if (provider === 'gpt') {
       frase = await getFraseGPT();
     } else {
       frase = await getFraseZenQuotes();
     }
-    console.log(`📡 Provider selecionado: ${provider}`);
 
     if (!frase) throw new Error('Frase não encontrada');
 
