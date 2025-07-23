@@ -63,8 +63,11 @@ if (canal === 'whatsapp') {
       const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
       return enviarFrase(msg);
     })
+    .then(() => {
+      process.exit(0); // 🧨 encerra após sucesso
+    })
     .catch(err => {
       console.error('❌ Erro ao buscar ou enviar frase:', err.message);
+      process.exit(1); // 🔴 encerra com erro
     });
 }
-
