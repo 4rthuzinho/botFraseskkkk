@@ -43,7 +43,7 @@ async function enviarFrase() {
     if (!frase) throw new Error('Frase não encontrada');
 
     const msg = `🧠 Já dizia o mestre *${frase.author}*:\n_"${frase.translated}"_`;
-    const numeroDestino = '553171829516@c.us';
+    const numeroDestino = '553185294769@c.us';
 
     await sendWhatsAppMessage(client, numeroDestino, msg);
   } catch (err) {
