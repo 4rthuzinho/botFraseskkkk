@@ -3,7 +3,7 @@ const qrcode = require('qrcode-terminal');
 const { getFraseZenQuotes } = require('./providers/zenquotes');
 const { getFraseGPT } = require('./providers/gpt');
 const { sendWhatsAppMessage } = require('./channel/whatsapp');
-const { sendDiscordMessage } = require('./providers/discord');
+const { sendDiscordMessage } = require('./channel/discord');
 
 // Define canal: 'whatsapp' ou 'discord'
 const canal = process.env.CHANNEL || 'whatsapp';
